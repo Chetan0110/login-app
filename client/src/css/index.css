@@ -1,0 +1,87 @@
+input {
+    background-color: #fff;
+    border: 1px solid #d8d8d8;
+    border-radius: 2px;
+    height: 3em;
+    margin-bottom: 1em;
+}
+
+.css-hc6lm9 {
+    position: relative;
+}
+
+.login-container main {
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: auto;
+    max-width: 28em;
+    padding: 2em;
+    position: relative;
+    width: 15em;
+}
+
+.login-container {
+    color: #94989f;
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+button {
+    background-image: linear-gradient(98deg,#f8403d,#ff2e73);
+    background-image: -o-linear-gradient(352deg,#f8403d,#ff2e73);
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 2px 9px 0 rgba(247,123,155,.71);
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+    height: 3em;
+}
+
+.forgot-password-link {
+    color: red;
+    font-size: 14px;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.register-success, .login-success {
+    color: green;
+    font-size: 14px;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.register-failure, .login-failure {
+    color: red;
+    font-size: 14px;
+    margin-top: 1em;
+    text-align: center;
+}
+
+.or-option {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5em 0;
+}
+
+.google-login button {
+    width: 100%;
+}
+
+.login-button-google {
+    background: transparent;
+    border: 2px solid #000;
+    box-shadow: none;
+    color: #000;
+}
+
+.page-title {
+    align-self: center;
+    color: #000;
+}
