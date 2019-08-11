@@ -37,7 +37,7 @@ router.post('/user/login', (req, res) => {
 }); 
 
 router.post('/user/signup', (req, res) => {
-    console.log(`*** Inside signup API with req...${JSON.stringify(req.body)}***`);
+    console.log(`*** Inside signup API with firstName...${JSON.stringify(req.body.firstName)}***`);
     // Creating empty user object 
     let newUser = new User();
     // Intialize newUser object with request data 
