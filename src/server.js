@@ -7,7 +7,7 @@ require('./mongoose/user');
 
 
 // DB Connection
-mongoose.connect(process.env.MONGOLAB_URI, { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/loginApp_db", { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 mongoose.connection.on('connected', () => {
     console.log(`Mongoose connection open on loginApp_db`);

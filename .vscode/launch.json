@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Debug Login App",
-            "program": "${workspaceFolder}/server/src/server.js"
+            "program": "${workspaceFolder}/src/server.js"
         }
     ]
 }
