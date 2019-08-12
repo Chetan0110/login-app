@@ -1,9 +1,6 @@
-# Ubuntu:16.04 with node and express
-
+# Ubuntu:16.04 with node and expres
 FROM ubuntu:16.04
 MAINTAINER Chetan Vekariya "chetanvekaria025@gmail.com"
-
-#ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
         apt-get -qq update && \
@@ -16,19 +13,17 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh && \
 RUN apt-get install -y nodejs
 RUN apt-get install -y vim
 
+RUN mkdir -p /usr/login-app
+WORKDIR /usr/login-app
+RUN mkdir -p client/build
+RUN mkdir -p src
 
-# TODO: Remove these adhoc installments of npm packages once you strip out the server code from client and have a separate package.json for server.
-RUN npm install express@4.14.0 && \
-    npm install body-parser@1.14.2 && \
-    npm install mongoose && \
-    npm install crypto && \
-    npm install path
+COPY client/build client/build/
+COPY src src/
+COPY package.json package.json
 
-ADD ./client/build /login-app/client/build/
-ADD ./server/src /login-app/server/src/
+RUN npm install
 
-WORKDIR /login-app
+EXPOSE 4000
 
-
-ARG CACHEBUST=1
-CMD node server/src/server.js
+CMD node src/server.js

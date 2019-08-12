@@ -33,13 +33,16 @@ export default class Login extends Component {
                         otp: ""
                     },
                     message: resp.data.message,
-                    hasError: false
+                    hasError: false,
+                    showOTPButton: false,
+                    otpSent: false
                 })
                 // this.props.history.push(`/login`);
             }).catch((err) => {
                 this.setState({
                     message: err.response.data.message,
-                    hasError: true
+                    hasError: true,
+                    otp: ""
                 })
                 console.error(err);
             })
@@ -53,13 +56,17 @@ export default class Login extends Component {
                         otp: ""
                     },
                     message: resp.data.message,
-                    hasError: false
+                    hasError: false,
+                    showOTPButton: false,
+                    otpSent: false
                 })
                 // this.props.history.push(`/login`);
             }).catch((err) => {
                 this.setState({
                     message: err.response.data.message,
-                    hasError: true
+                    hasError: true,
+                    password: "",
+                    otp: ""
                 })
                 console.error(err);
             })
@@ -152,16 +159,7 @@ export default class Login extends Component {
                         this.state.message.length > 0 &&
                         <div className={this.state.hasError ? "login-failure" : "login-success"}>{this.state.message}</div>
                     }
-                    <a href="" className="forgot-password-link">Forgot Password</a>
-                    <div className="or-option">
-                        <hr/>
-                            <span>OR</span>
-                        <hr/>
-                    </div>
-                    <a href="" className="google-login">
-                        <button className="login-button-google">Login with Google</button>
-                    </a>
-                    <div className="forgot-password-link">Haven't registered yet? <a href="/signup">Register here.</a></div>
+                    <div className="unregistered">Haven't registered yet? <a href="/signup">Register here.</a></div>
                 </main>
             </div>
         )

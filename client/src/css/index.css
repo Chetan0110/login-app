@@ -40,9 +40,10 @@ button {
     cursor: pointer;
     font-weight: 700;
     height: 3em;
+    width: 100%;
 }
 
-.forgot-password-link {
+.unregistered, .registered {
     color: red;
     font-size: 14px;
     margin-top: 1em;
@@ -61,24 +62,6 @@ button {
     font-size: 14px;
     margin-top: 1em;
     text-align: center;
-}
-
-.or-option {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    margin: 1.5em 0;
-}
-
-.google-login button {
-    width: 100%;
-}
-
-.login-button-google {
-    background: transparent;
-    border: 2px solid #000;
-    box-shadow: none;
-    color: #000;
 }
 
 .page-title {

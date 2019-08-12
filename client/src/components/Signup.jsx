@@ -82,15 +82,7 @@ export default class Signup extends Component {
                         this.state.message.length > 0 &&
                         <div className={this.state.hasError ? "register-failure" : "register-success"}>{this.state.message}</div>
                     }
-                    <div className="or-option">
-                        <hr/>
-                            <span>OR</span>
-                        <hr/>
-                    </div>
-                    <a href="" className="google-login">
-                        <button className="login-button-google">Sign Up with Google</button>
-                    </a>
-                    <div className="forgot-password-link">Already registered once? <a href="/login">Login here.</a></div>
+                    <div className="registered">Already registered once? <a href="/login">Login here.</a></div>
                 </main>
             </div>
         )
