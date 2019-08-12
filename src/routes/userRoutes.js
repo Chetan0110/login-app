@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-var http = require("https");
-var qs = require("querystring");
+const http = require("https");
+const qs = require("querystring");
 
 const router = express.Router();
-
 const User = mongoose.model('User');
+
+const configs = require("../configs/configs").configs;
+const constants = require("../constants/message_constants").constants;
 
 
 router.get('/user/all', (req, res) => {
@@ -21,18 +23,18 @@ router.post('/user/login', (req, res) => {
     User.findOne({ email : req.body.email }, function(err, user) { 
         if (user === null) { 
             return res.status(400).send({ 
-                message : "User not found."
+                message : constants.USER_NOT_FOUND
             }); 
         } 
         else { 
             if (user.validPassword(req.body.password)) { 
                 return res.status(201).send({
-                    message : "User Logged In", 
+                    message : constants.USER_LOGGED_IN
                 }) 
             } 
             else { 
                 return res.status(400).send({ 
-                    message : "Wrong Password"
+                    message : constants.WRONG_PASSWORD
                 }); 
             } 
         } 
@@ -63,7 +65,7 @@ router.post('/user/signup', (req, res) => {
         } 
         else { 
             return res.status(201).send({ 
-                message : "User added succesfully."
+                message : constants.USER_ADDED_SUCCESS
             }); 
         } 
     });
@@ -75,15 +77,15 @@ router.post("/user/sendOtp", (req, res) => {
     User.findOne({ phoneNumber : req.body.phoneNumber }, function(err, user) { 
         if (user === null) { 
             return res.status(400).send({ 
-                message : "User not found."
+                message : constants.USER_NOT_FOUND
             }); 
         } else {
             console.log(`*** Found user with phone number ${req.body.phoneNumber} ***`)
             let options = {
                 "method": "POST",
-                "hostname": "control.msg91.com",
+                "hostname": configs.MSG91_HOST,
                 "port": null,
-                "path": `/api/sendotp.php?mobile=${"91" + req.body.phoneNumber}&authkey=289201AEHexKaGq5d503156`,
+                "path": `/api/sendotp.php?mobile=${"91" + req.body.phoneNumber}&authkey=${configs.MSG91_AUTHKEY}`,
                 "headers": {}
             };
           
@@ -120,9 +122,9 @@ router.post("/user/verifyOtp", (req, res) => {
 
     var options = {
         "method": "POST",
-        "hostname": "control.msg91.com",
+        "hostname": configs.MSG91_HOST,
         "port": null,
-        "path": `/api/verifyRequestOTP.php?authkey=289201AEHexKaGq5d503156&mobile=${"91" + req.body.phoneNumber}&otp=${req.body.otp}`,
+        "path": `/api/verifyRequestOTP.php?authkey=${configs.MSG91_AUTHKEY}&mobile=${"91" + req.body.phoneNumber}&otp=${req.body.otp}`,
         "headers": {
           "content-type": "application/x-www-form-urlencoded"
         }
@@ -141,11 +143,11 @@ router.post("/user/verifyOtp", (req, res) => {
 
             if (JSON.parse(body.toString()).type === "success") {
                 return res.status(201).send({
-                    message : "User Logged In", 
+                    message : constants.USER_LOGGED_IN, 
                 }) 
             } else {
                 return res.status(400).send({ 
-                    message : "Wrong OTP"
+                    message : constants.WRONG_OTP
                 });
             }
         });
