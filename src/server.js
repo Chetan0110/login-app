@@ -6,8 +6,9 @@ require('./mongoose/user');
 
 
 
-// DB Connection
-mongoose.connect("mongodb://localhost/loginApp_db", { useNewUrlParser: true });
+// DB Connection with mongodb docker image host
+// To connect with localhost db, relace it with "localhost" 
+mongoose.connect("mongodb://172.17.0.2/loginApp_db", { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 mongoose.connection.on('connected', () => {
     console.log(`Mongoose connection open on loginApp_db`);
