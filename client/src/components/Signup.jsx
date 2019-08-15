@@ -67,12 +67,10 @@ export default class Signup extends Component {
                         onChange={(e) => this.onChange(e, "phoneNumber")} 
                         value={this.state.userInfo.phoneNumber}
                     />
-                    <div className="css-hc6lm9">
-                        <input type="email" name="email" placeholder="Enter Email" style={{ width: "98%" }} 
-                            onChange={(e) => this.onChange(e, "email")}
-                            value={this.state.userInfo.email}
-                        />
-                    </div>
+                    <input type="email" name="email" placeholder="Enter Email" 
+                        onChange={(e) => this.onChange(e, "email")}
+                        value={this.state.userInfo.email}
+                    />
                     <input type="password" name="password" placeholder="Enter Password" 
                         onChange={(e) => this.onChange(e, "password")} 
                         value={this.state.userInfo.password}

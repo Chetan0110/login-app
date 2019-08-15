@@ -26,4 +26,4 @@ RUN npm install
 
 EXPOSE 4000
 
-CMD node src/server.js
+CMD NODE_ENV=prod node src/server.js

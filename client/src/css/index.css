@@ -6,10 +6,6 @@ input {
     margin-bottom: 1em;
 }
 
-.css-hc6lm9 {
-    position: relative;
-}
-
 .login-container main {
     background-color: #fff;
     border-radius: 4px;
@@ -67,4 +63,8 @@ button {
 .page-title {
     align-self: center;
     color: #000;
+}
+
+input {
+    padding: 5px;
 }

@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
+import { userOTPLogin, userEmailLogin } from "../actions/user_actions";
 import "../css/index.css";
 
 
-export default class Login extends Component {
+export class Login extends Component {
 
     constructor() {
         super();
@@ -22,9 +24,15 @@ export default class Login extends Component {
         }
     }
 
+    componentWillMount() {
+        if (this.props.loggedIn) {
+            this.props.history.push("/home");
+        }
+    }
+
     onLoginClick = () => {
         if (this.state.credentials.otp.length > 0) {
-            axios.post("/user/verifyOtp", {...this.state.credentials}).then((resp) => {
+            this.props.userOTPLogin({...this.state.credentials}).then((resp) => {
                 this.setState({
                     credentials: {
                         phoneNumber: "",
@@ -37,17 +45,21 @@ export default class Login extends Component {
                     showOTPButton: false,
                     otpSent: false
                 })
-                // this.props.history.push(`/login`);
+                this.props.history.push(`/home`);
             }).catch((err) => {
                 this.setState({
                     message: err.response.data.message,
                     hasError: true,
                     otp: ""
                 })
-                console.error(err);
+            })
+        } else if (this.state.otpSent && this.state.credentials.otp.length === 0) {
+            this.setState({
+                message: "Enter OTP",
+                hasError: true
             })
         } else {
-            axios.post("/user/login", {...this.state.credentials}).then((resp) => {
+            this.props.userEmailLogin({...this.state.credentials}).then((resp) => {
                 this.setState({
                     credentials: {
                         phoneNumber: "",
@@ -60,7 +72,7 @@ export default class Login extends Component {
                     showOTPButton: false,
                     otpSent: false
                 })
-                // this.props.history.push(`/login`);
+                this.props.history.push(`/home`);
             }).catch((err) => {
                 this.setState({
                     message: err.response.data.message,
@@ -68,7 +80,6 @@ export default class Login extends Component {
                     password: "",
                     otp: ""
                 })
-                console.error(err);
             })
         }
     }
@@ -81,7 +92,6 @@ export default class Login extends Component {
                 otpSent: true,
                 showOTPButton: false
             })
-            // this.props.history.push(`/login`);
         }).catch((err) => {
             this.setState({
                 message: err.response.data.message,
@@ -126,13 +136,11 @@ export default class Login extends Component {
         return (
             <div className="login-container">
                 <main>
-                <h1 className="page-title">Login</h1>
-                    <div className="css-hc6lm9">
-                        <input type="email" name="email" placeholder="Enter Email" style={{ width: "98%" }} 
-                            onChange={(e) => this.onChange(e, "email")}
-                            value={ this.state.credentials.phoneNumber || this.state.credentials.email}
-                        />
-                    </div>
+                <h1 className="page-title">Login</h1> 
+                    <input type="email" name="email" placeholder="Enter Email" style={{ width: "95%" }} 
+                        onChange={(e) => this.onChange(e, "email")}
+                        value={ this.state.credentials.phoneNumber || this.state.credentials.email}
+                    />
                     {
                         !this.state.showOTPButton && !this.state.otpSent &&
                             <input type="password" name="password" placeholder="Enter Password" 
@@ -165,3 +173,18 @@ export default class Login extends Component {
         )
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        loggedIn: state.user.loggedIn
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        userOTPLogin: (loginInfo) => { return userOTPLogin(dispatch, loginInfo) },
+        userEmailLogin: (loginInfo) => { return userEmailLogin(dispatch, loginInfo) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
