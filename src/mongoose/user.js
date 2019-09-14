@@ -3,9 +3,10 @@ var crypto = require('crypto');
 
 
 const userSchema = new mongoose.Schema({
+  local: {
     firstName: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     lastName: {
         type: String,
@@ -23,8 +24,9 @@ const userSchema = new mongoose.Schema({
     password: {
       type: String,
       required: true
-    },
-    salt: String
+    }
+  },
+  salt: String
 });
 
 userSchema.methods.setPassword = function(password) { 
@@ -34,13 +36,13 @@ userSchema.methods.setPassword = function(password) {
     
   // Hashing user's salt and password with 1000 iterations, 
   //  64 length and sha512 digest 
-  this.password = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString(`hex`); 
+  this.local.password = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString(`hex`);
+  return this.local.password;
 }; 
 
 userSchema.methods.validPassword = function(password) { 
-  let hash = crypto.pbkdf2Sync(password,  
-  this.salt, 1000, 64, `sha512`).toString(`hex`); 
-  return this.password === hash; 
+  let hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, `sha512`).toString(`hex`);
+  return this.local.password === hash; 
 }; 
 
 module.exports = mongoose.model("User", userSchema);

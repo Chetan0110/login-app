@@ -17,7 +17,7 @@ export function userOTPLogin(dispatch, loginInfo) {
 
 export function userEmailLogin(dispatch, loginInfo) {
     return new Promise((resolve, reject) => {
-        axios.post("/user/login", loginInfo).then((resp) => {
+        axios.post("/login", loginInfo).then((resp) => {
             dispatch({
                 type: LOGIN_SUCCESS
             })
@@ -29,7 +29,45 @@ export function userEmailLogin(dispatch, loginInfo) {
 }
 
 export function logoutUser(dispatch) {
-    dispatch({
-        type: LOGOUT_SUCCESS
+    return new Promise((resolve, reject) => {
+        axios.get("/logout").then((resp) => {
+            resolve(resp);
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+export function fetchUserInfo(dispatch) {
+    return new Promise((resolve, reject) => {
+        axios.get("/profile").then((resp) => {
+            resolve(resp);
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+export function loginwithGoogle(dispatch) {
+    return new Promise((resolve, reject) => {
+        axios.get("auth/login").then((resp) => {
+            dispatch({
+                type: LOGIN_SUCCESS
+            })
+            resolve(resp);
+        }).catch((err) => {
+            reject(err);
+        })
+    })
+}
+
+
+export function getGoogleAccountsUrl(dispatch) {
+    return new Promise((resolve, reject) => {
+        axios.get("/getGoogleUrl").then((resp) => {
+            resolve(resp);
+        }).catch((err) => {
+            reject(err);
+        })
     })
 }

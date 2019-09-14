@@ -39,6 +39,29 @@ button {
     width: 100%;
 }
 
+.or-option {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5em 0;
+}
+
+.or-option > hr {
+    border: none;
+    border-top: 1px solid #94989f;
+    height: 1px;
+    margin: 0;
+    width: 41%;
+}
+
+.login-button-google {
+    background: no-repeat 20px 4px;
+    background-size: 25px 25px;
+    border: 1px solid #000;
+    box-shadow: none;
+    color: #585c61;
+}
+
 .unregistered, .registered {
     color: red;
     font-size: 14px;

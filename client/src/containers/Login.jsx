@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 
-import { userOTPLogin, userEmailLogin } from "../actions/user_actions";
+import { userOTPLogin, userEmailLogin, getGoogleAccountsUrl } from "../actions/user_actions";
 import "../css/index.css";
 
 
@@ -20,14 +20,15 @@ export class Login extends Component {
             message: "",
             hasError: false,
             showOTPButton: false,
-            otpSent: false
+            otpSent: false,
+            googleAccountsUrl: ""
         }
     }
 
-    componentWillMount() {
-        if (this.props.loggedIn) {
-            this.props.history.push("/home");
-        }
+    componentDidMount() {
+        this.props.getGoogleAccountsUrl().then((resp) => {
+            this.setState({ googleAccountsUrl: resp.data.googleAccountsUrl });
+        });
     }
 
     onLoginClick = () => {
@@ -67,7 +68,7 @@ export class Login extends Component {
                         password: "",
                         otp: ""
                     },
-                    message: resp.data.message,
+                    message: "",
                     hasError: false,
                     showOTPButton: false,
                     otpSent: false
@@ -75,7 +76,7 @@ export class Login extends Component {
                 this.props.history.push(`/home`);
             }).catch((err) => {
                 this.setState({
-                    message: err.response.data.message,
+                    message: "",
                     hasError: true,
                     password: "",
                     otp: ""
@@ -167,6 +168,14 @@ export class Login extends Component {
                         this.state.message.length > 0 &&
                         <div className={this.state.hasError ? "login-failure" : "login-success"}>{this.state.message}</div>
                     }
+                    <div className="or-option">
+                        <hr />
+                        <span>OR</span>
+                        <hr />
+                    </div>
+                    <a href={this.state.googleAccountsUrl} className="google-login">
+                        <button className="login-button-google">Log In with Google</button>
+                    </a>
                     <div className="unregistered">Haven't registered yet? <a href="/signup">Register here.</a></div>
                 </main>
             </div>
@@ -183,7 +192,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         userOTPLogin: (loginInfo) => { return userOTPLogin(dispatch, loginInfo) },
-        userEmailLogin: (loginInfo) => { return userEmailLogin(dispatch, loginInfo) }
+        userEmailLogin: (loginInfo) => { return userEmailLogin(dispatch, loginInfo) },
+        getGoogleAccountsUrl: () => { return getGoogleAccountsUrl(dispatch) }
     }
 }
 

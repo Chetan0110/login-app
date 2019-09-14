@@ -22,7 +22,7 @@ export default class Signup extends Component {
     }
 
     onSignUpClick = () => {
-        axios.post("/user/signup", {...this.state.userInfo}).then((resp) => {
+        axios.post("/signup", {...this.state.userInfo}).then((resp) => {
             this.setState({
                 userInfo: {
                     firstName: "",
@@ -31,13 +31,13 @@ export default class Signup extends Component {
                     email: "",
                     password: ""
                 },
-                message: resp.data.message,
+                message: "",
                 hasError: false
             })
-            // this.props.history.push(`/login`);
+            this.props.history.push(`/home`);
         }).catch((err) => {
             this.setState({
-                message: err.response.data.message,
+                message: "",
                 hasError: true
             })
             console.error(err);

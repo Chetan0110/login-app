@@ -1,7 +1,10 @@
 const express = require("express")
-var bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser')
 const path = require("path")
 const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
 
 require('./mongoose/user');
 const configs = require("./configs/configs").configs;
@@ -16,18 +19,32 @@ mongoose.connection.on('connected', () => {
     console.log(`Connection error: ${err.message}`);
 });
 
+require('./configs/passport')(passport);
+
 // port
 const port = "4000";
 // create express app
 const app = express();
+
+app.use(cookieParser());
+
+// required for passport
+app.use(session({
+    secret: 'eminem', // session secret
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // bodyParser
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Give routes to app
-const routes = require("./routes/userRoutes");
-app.use("/", routes);
+const userRoutes = require("./routes").userRoutes;
+
+app.use("/", userRoutes);
 
 app.use(express.static(path.join(__dirname, "../client/build")))
 app.get("/*", function (req, res) {

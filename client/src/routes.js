@@ -14,7 +14,7 @@ export default function routes() {
         <Route exact path="/" component={Login} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/home" render={props => (<AccessControlComponent onSuccess={Home} onFailure={Login} {...props}/>)}/>
+        <Route path="/home" component={Home} />
       </div>
     </Router>
   );
